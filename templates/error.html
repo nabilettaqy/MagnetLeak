@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=yes"/>
+    <meta name="color-scheme" content="light dark"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/picocss/pico.violet.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>MagnetLeak | {{ error }}</title>
+    <meta name="description" content="boom boom boom"/>
+</head>
+    <body>
+        <!-- Header -->
+        <header class="container">
+            <hgroup class="title">
+                <h1 class="title-text"><img class="logo" src="{{ url_for('static', filename='img/logo.svg') }}" alt="logo" width="100" height="100">MagnetLeak</h1>
+                <p class="quote">Weapons are used by soldiers on the battlefield. If you have never used them yourself, you have no idea what you're selling.</p>
+                <hr/>
+                <div class="info-container">
+                    <p><img class="magnet-icon" src="{{ url_for('static', filename='img/magnet.svg') }}" width="25" height="25" alt="icon">No. magnets: <strong>{{ formatted_total_links }}</strong></p>
+                    <p><img class="magnet-icon" src="{{ url_for('static', filename='img/eye.svg') }}" width="30" height="30" alt="icon">Global views: <strong>{{ formatted_total_views }}</strong></p>
+                  </div>
+            </hgroup>
+        </header>
+        <!-- Main -->
+        <main class="container">
+            {{ error }}
+            <div class="home-container-button">
+                <a href="{{ url_for('home') }}"><button class="outline">Home</button></a>
+            </div>
+        </main>
+        <!-- Footer -->
+        <footer class="container main-footer">
+            <hr/>
+            <small class="footer-text">2024</small>
+            <small class="footer-text">Made by <a href="#">someone</a>.</small>
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=yes"/>
+    <meta name="color-scheme" content="light dark"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/picocss/pico.violet.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>MagnetLeak</title>
+    <meta name="description" content="boom boom boom"/>
+</head>
+    <body>
+        <!-- Header -->
+        <header class="container">
+            <hgroup class="title">
+                <h1 class="title-text"><img class="logo" src="{{ url_for('static', filename='img/logo.svg') }}" alt="logo" width="100" height="100">MagnetLeak</h1>
+                <p class="quote">Weapons are used by soldiers on the battlefield. If you have never used them yourself, you have no idea what you're selling.</p>
+                <hr/>
+                <div class="info-container">
+                  <p><img class="magnet-icon" src="{{ url_for('static', filename='img/magnet.svg') }}" width="25" height="25" alt="icon">No. magnets: <strong>{{ formatted_total_links }}</strong></p>
+                  <p><img class="magnet-icon" src="{{ url_for('static', filename='img/eye.svg') }}" width="30" height="30" alt="icon">Global views: <strong>{{ formatted_total_views }}</strong></p>
+                </div>
+            </hgroup>
+        </header>
+        <!-- Main -->
+        <main class="container">
+          <form action="{{ url_for('search') }}" method="get">
+            <fieldset role="group">
+              <input type="text" name="q" placeholder="Search magnets" required>
+              <input type="submit" value="Search">
+            </fieldset>
+          </form>
+          <div class="submit-container-button">
+            <a href="{{ url_for('submit') }}"><button class="outline">Submit a magnet</button></a>
+          </div>
+          <h2>Recent magnets:</h2>
+          {% for link in links %}
+            <article>
+                <div class="info-container view-container">
+                  <img class="magnet-icon circle-icon" src="{{ url_for('static', filename='img/circle.svg') }}" width="25" height="25" alt="icon">
+                  <p class="views-count"><img class="magnet-icon" src="{{ url_for('static', filename='img/eye.svg') }}" width="30" height="30" alt="icon"><strong class="info-text">{{ format_num(link.views) }}</strong></p>
+                </div>
+                <div class="info-container">
+                  <h3 class="magnet-title"><a href="{{ url_for('magnet', link_name=link.link_name) }}">{{ link.title|truncate(60, True) }}</a></h3>                
+                </div>
+                <p>{{ link.description|safe|truncate(200, True) }}</p>
+                <p><img class="magnet-icon" src="{{ url_for('static', filename='img/magnet.svg') }}" width="25" height="25" alt="icon"><a class="magnet-link" href="{{ link.link }}">{{ link.link|truncate(50, True) }}</a></p>
+                <div class="info-container">
+                  <p><img class="magnet-icon date-icon" src="{{ url_for('static', filename='img/date.svg') }}" width="25" height="25" alt="icon"><strong class="info-text">{{ link.date_posted.strftime('%Y-%m-%d') }}</strong></p>
+                  <p><img class="magnet-icon date-icon" src="{{ url_for('static', filename='img/user.svg') }}" width="25" height="25" alt="icon"><strong class="info-text">{{ link.user_name|truncate(20, True) }}</strong></p>
+                </div>
+            </article>
+            {% if not loop.last %}
+              <hr class="dotted">
+            {% endif %}
+          {% else %}
+            <p>No links found.</p>
+          {% endfor %}
+          <div class="bottom-text">
+            <small>Please use the search feature to find more magnets.</small>
+          </div>
+        </main>
+        <!-- Footer -->
+        <footer class="container main-footer">
+            <hr/>
+            <small class="footer-text">2024</small>
+            <small class="footer-text">Made by <a href="#">someone</a>.</small>
+        </footer>
+    </body>
+</html>

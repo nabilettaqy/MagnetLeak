@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=yes"/>
+    <meta name="color-scheme" content="light dark"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/picocss/pico.violet.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>MagnetLeak | {{ query|truncate(15, True) }}</title>
+    <meta name="description" content="boom boom boom"/>
+</head>
+    <body>
+        <!-- Header -->
+        <header class="container">
+            <hgroup class="title">
+                <h1 class="title-text"><img class="logo" src="{{ url_for('static', filename='img/logo.svg') }}" alt="logo" width="100" height="100">MagnetLeak</h1>
+                <p class="quote">Weapons are used by soldiers on the battlefield. If you have never used them yourself, you have no idea what you're selling.</p>
+                <hr/>
+                <div class="info-container">
+                    <p><img class="magnet-icon" src="{{ url_for('static', filename='img/magnet.svg') }}" width="25" height="25" alt="icon">No. magnets: <strong>{{ formatted_total_links }}</strong></p>
+                    <p><img class="magnet-icon" src="{{ url_for('static', filename='img/eye.svg') }}" width="30" height="30" alt="icon">Global views: <strong>{{ formatted_total_views }}</strong></p>
+                  </div>
+            </hgroup>
+        </header>
+        <!-- Main -->
+        <main class="container">
+            <form action="{{ url_for('search') }}" method="get">
+                <fieldset role="group">
+                    <input type="text" name="q" placeholder="Search magnets" required>
+                    <input type="submit" value="Search">
+                </fieldset>
+            </form>
+            <div class="info-container search-info-container">
+                <h2 class="search-text"><img class="magnet-icon" src="{{ url_for('static', filename='img/search.svg') }}" width="40" height="40" alt="icon">: {{ query|truncate(10, True) }}</h2>
+                <details class="dropdown search-dropdown">
+                    <summary>
+                      Sort by
+                    </summary>
+                    <ul class="ul-checkbox" dir="rtl">
+                        <li><a href="{{ url_for('search', q=query, sort='most_recent') }}">Most recent</a></li>
+                        <li><a href="{{ url_for('search', q=query, sort='most_older') }}">Most older</a></li>
+                        <li><a href="{{ url_for('search', q=query, sort='most_views') }}">Most views</a></li>
+                        <li><a href="{{ url_for('search', q=query, sort='least_views') }}">Least views</a></li>
+                    </ul>
+                </details>
+            </div>
+            {% if links.items %}
+                {% for link in links.items %}
+                    <article>
+                        <div class="info-container view-container">
+                            <img class="magnet-icon circle-icon" src="{{ url_for('static', filename='img/circle.svg') }}" width="25" height="25" alt="icon">
+                            <p class="views-count"><img class="magnet-icon" src="{{ url_for('static', filename='img/eye.svg') }}" width="30" height="30" alt="icon"><strong class="info-text">{{ format_num(link.views) }}</strong></p>
+                        </div>
+                        <div class="info-container">
+                            <h3 class="magnet-title"><a href="{{ url_for('magnet', link_name=link.link_name) }}">{{ link.title|truncate(60, True) }}</a></h3>                       
+                        </div>
+                        <p>{{ link.description|safe|truncate(200, True) }}</p>
+                        <p><img class="magnet-icon" src="{{ url_for('static', filename='img/magnet.svg') }}" width="25" height="25" alt="icon"><a class="magnet-link" href="{{ link.link }}">{{ link.link|truncate(50, True) }}</a></p>
+                        <div class="info-container">
+                            <p><img class="magnet-icon date-icon" src="{{ url_for('static', filename='img/date.svg') }}" width="25" height="25" alt="icon"><strong class="info-text">{{ link.date_posted.strftime('%Y-%m-%d') }}</strong></p>
+                            <p><img class="magnet-icon date-icon" src="{{ url_for('static', filename='img/user.svg') }}" width="25" height="25" alt="icon"><strong class="info-text">{{ link.user_name|truncate(20, True) }}</strong></p>
+                        </div>
+                    </article>
+                    {% if not loop.last %}
+                        <hr class="dotted">
+                    {% endif %}
+                {% endfor %}
+                {% if links.has_prev %}
+                    <div class="previous-container">
+                        <a href="{{ url_for('search', q=query, sort=sort_order, page=links.prev_num) }}"><button class="outline contrast page-button">Previous</button></a>
+                    </div>
+                {% endif %}
+                {% if links.has_next %}
+                    <div class="next-container">
+                        <a href="{{ url_for('search', q=query, sort=sort_order, page=links.next_num) }}"><button class="outline contrast page-button">Next</button></a>
+                    </div>
+                {% endif %}
+            {% else %}
+                <p>No results found.</p>
+            {% endif %}
+            <div class="home-container-button">
+                <a href="{{ url_for('home') }}"><button class="outline">Home</button></a>
+            </div>
+        </main>
+        <!-- Footer -->
+        <footer class="container main-footer">
+            <hr/>
+            <small class="footer-text">2024</small>
+            <small class="footer-text">Made by <a href="#">someone</a>.</small>
+        </footer>
+    </body>
+</html>
