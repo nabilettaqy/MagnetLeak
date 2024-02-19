@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/picocss/pico.violet.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <title>MagnetLeak | Submit</title>
-    <meta name="description" content="boom boom boom"/>
+    <meta name="description" content="leaking magnets"/>
 </head>
     <body>
         <!-- Header -->
@@ -29,13 +29,13 @@
             <h2>Submit a magnet:</h2>
             <form method="POST">
                 <label for="title">Title:</label><br>
-                <input type="text" id="title" name="title" placeholder="max 100 characters"><br>
+                <input type="text" id="title" name="title" placeholder="max 100 characters" required><br>
                 <label for="user_name">From (Optional):</label><br>
                 <input id="user_name" name="user_name" placeholder="anonymous"><br>
                 <label for="description">Description (Optional):</label><br>
                 <textarea id="description" name="description" placeholder="max 1000 characters"></textarea><br>
                 <label for="link">Magnet Link:</label><br>
-                <textarea id="link" name="link" placeholder="magnet:\?xt=urn:btih:..."></textarea><br>
+                <textarea id="link" name="link" placeholder="magnet:\?xt=urn:btih:..." required></textarea><br>
                 <input type="submit" value="Submit">
             </form>
             {% if error %}
