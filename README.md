@@ -1,4 +1,7 @@
 # MagnetLeak
+<p align="center">
+  <img src="images/screen1.png" />
+</p>
 
 Welcome to MagnetLeak - A Web App dedicated to share torrent magnets without censorship and JS free...
 
