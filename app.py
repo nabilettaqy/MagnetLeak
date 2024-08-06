@@ -1,6 +1,8 @@
 from http.client import HTTPException
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
+from flask_compress import Compress
+from flask import send_from_directory
 from datetime import datetime
 from datetime import datetime, timedelta
 from sqlalchemy import desc
@@ -13,6 +15,7 @@ import re
 
 # Create a Flask app
 app = Flask(__name__)
+Compress(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(os.path.dirname(os.path.abspath(__file__)), 'db', 'database.db')
 app.config['SECRET_KEY'] = 'secret' # Change this!
 db = SQLAlchemy(app)
@@ -22,7 +25,7 @@ class Link(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     link_name = db.Column(db.String(100), nullable=False, unique=True)
-    description = db.Column(db.String(1000), nullable=True)
+    description = db.Column(db.String(1500), nullable=True)
     link = db.Column(db.String(500), nullable=False)
     ip_address = db.Column(db.String(15), nullable=False)
     ip_addresses = db.Column(db.String, default="")
@@ -34,7 +37,7 @@ class Link(db.Model):
 with app.app_context():
     db.create_all()
 
-# Format a number to be more readable 
+# Format a number to be more readable
 def format_num(num):
     if num < 1000:
         return str(num)
@@ -42,7 +45,7 @@ def format_num(num):
         return f"{num / 1000:.1f}K"
     else:
         return f"{num / 1000000:.1f}M"
-    
+
 @app.context_processor
 def utility_processor():
     def format_num(num):
@@ -150,7 +153,7 @@ def submit():
         description = request.form.get('description') or 'No description provided.'
         description = description.replace('<', '').replace('>', '')
         description = re.sub('\n{3,}', '\n\n', description)
-        description = re.sub('(<br>\s*){2,}', '<br>', description.replace('\n', '<br>'))
+        description = re.sub(r'(<br>\s*){2,}', '<br>', description.replace('\n', '<br>'))
         magnet_link = request.form.get('link')
         user_name = re.sub(' {6,}', '     ', request.form.get('user_name') or 'anonymous')
         user_name = user_name.replace("/", "").replace("\\", "")
@@ -165,7 +168,7 @@ def submit():
         if link_count >= 10:
             return render_template('submit.html', error='You have reached the limit of 10 submits per day.')
         # Check if it's a valid magnet link, if the title and description are within the character limit, and if the title and description are not empty
-        if re.match(r'magnet:\?xt=urn:btih:[a-zA-Z0-9]{40}', magnet_link) and len(title) <= 100 and len(user_name) <= 30 and len(description) <= 1000 and title and description:
+        if re.match(r'magnet:\?xt=urn:btih:[a-zA-Z0-9]{40}', magnet_link) and len(title) <= 100 and len(user_name) <= 30 and len(description) <= 1500 and title and description:
             # Add the magnet link to the database
             new_link = Link(title=title, link_name=link_name, description=description, link=magnet_link, ip_address=ip_address, user_name=user_name)
             db.session.add(new_link)
@@ -176,7 +179,7 @@ def submit():
             return redirect(url_for('magnet', link_name=link_name))
         else:
             # If it's not a valid magnet link or if the title or description are too long, render the post page with an error message
-            return render_template('submit.html', error='Invalid input. Make sure your magnet link is valid, your title is no more than 100 characters, your username is no more than 30 characters, and your description is no more than 1000 characters.', formatted_total_links=formatted_total_links, formatted_total_views=formatted_total_views)
+            return render_template('submit.html', error='Invalid input. Make sure your magnet link is valid, your title is no more than 100 characters, your username is no more than 30 characters, and your description is no more than 1500 characters.', formatted_total_links=formatted_total_links, formatted_total_views=formatted_total_views)
     else:
         # Render the post page
         return render_template('submit.html', formatted_total_links=formatted_total_links, formatted_total_views=formatted_total_views)
@@ -207,6 +210,11 @@ def admin():
 
     # Render the admin page
     return render_template('admin.html', formatted_total_links=formatted_total_links, formatted_total_views=formatted_total_views)
+
+# favicon
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path,'static'), 'img/favicon.ico', mimetype='image/vnd.microsoft.icon')    
 
 # error handlers
 @app.errorhandler(Exception)

@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=yes"/>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=5, user-scalable=yes"/>
     <meta name="color-scheme" content="light dark"/>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/picocss/pico.violet.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/picocss/pico.violet.min.css') }}" media="all">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" media="all">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/logo.svg') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='img/logo.svg') }}" type="image/x-icon">
     <title>MagnetLeak | {{ link.title|truncate(30, True) }}</title>
     <meta name="description" content="leaking magnets"/>
 </head>
@@ -15,7 +17,7 @@
         <!-- Header -->
         <header class="container">
             <hgroup class="title">
-                <h1 class="title-text"><img class="logo" src="{{ url_for('static', filename='img/logo.svg') }}" alt="logo" width="100" height="100">MagnetLeak</h1>
+                <h1 class="title-text"><a class="home-icon" href="{{ url_for('home') }}" title="MagnetLeak"><img class="logo" src="{{ url_for('static', filename='img/logo.svg') }}" alt="logo" width="100" height="100"></a>MagnetLeak</h1>
                 <p class="quote">Weapons are used by soldiers on the battlefield. If you have never used them yourself, you have no idea what you're selling.</p>
                 <hr/>
                 <div class="info-container">
