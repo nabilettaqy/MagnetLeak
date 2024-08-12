@@ -26,6 +26,10 @@ Welcome to MagnetLeak - A Web App dedicated to share torrent magnets without cen
 
 See this [guide](https://dev.to/brandonwallace/deploy-flask-the-easy-way-with-gunicorn-and-nginx-jgc) for deploying the application in a linux server using Nginx and Gunicorn.
 
+## Admin
+
+See `/admin` for deleting posts.
+
 ## Disclaimer
 
 This project is for educational purposes only. Any actions and or activities related to the material contained within this project is solely your responsibility. I assume no liability and are not responsible for any misuse or damage caused by this program.
