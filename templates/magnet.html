@@ -33,8 +33,12 @@
             </div>
             <article>
               <div class="info-container view-container">
-                    <img class="magnet-icon circle-icon" src="{{ url_for('static', filename='img/circle.svg') }}" width="25" height="25" alt="icon">
-                    <p class="views-count"><img class="magnet-icon" src="{{ url_for('static', filename='img/eye.svg') }}" width="30" height="30" alt="icon"><strong class="info-text">{{ format_num(link.views) }}</strong></p>
+            {% if link.status == "verified" %}
+                <p><img class="magnet-icon verified-icon" src="{{ url_for('static', filename='img/verified.svg') }}" width="30" height="30" alt="icon"><strong class="info-text verified">Verified</strong></p>
+              {% else %}
+                <p><img class="magnet-icon circle-icon" src="{{ url_for('static', filename='img/circle.svg') }}" width="25" height="25" alt="icon"><strong class="info-text verified"></strong></p>
+              {% endif %}                    
+              <p class="views-count"><img class="magnet-icon" src="{{ url_for('static', filename='img/eye.svg') }}" width="30" height="30" alt="icon"><strong class="info-text">{{ format_num(link.views) }}</strong></p>
               </div>
               <div class="info-container">
                 <h2 class="magnet-title">{{ link.title }}</h2>

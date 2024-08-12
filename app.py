@@ -32,6 +32,7 @@ class Link(db.Model):
     date_posted = db.Column(db.DateTime, default=datetime.utcnow)
     user_name = db.Column(db.String(100), nullable=False, default='anonymous')
     views = db.Column(db.Integer, default=0)
+    status = db.Column(db.String(20), default='active') # Set the default value to 'active'/ 'verified' if the leak is legit
 
 # Create database tables if they don't exist already
 with app.app_context():

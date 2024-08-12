@@ -106,11 +106,11 @@ hr.dotted {
 }
 
 .success-message {
-    color: rgb(50, 129, 50);
+    color: aquamarine;
 }
 
 .error-message {
-    color: rgb(129, 50, 50);
+    color: brown;
 }
 
 button {
@@ -223,12 +223,21 @@ a.magnet-link {
 }
 
 .circle-icon {
-    margin-bottom: 20px;
+    margin-bottom: 3px;
     opacity: 0.5;
 }
 
-.error-text{
-    color: rgb(129, 50, 50);
+.verified-icon {
+    margin-bottom: 3px;
+}
+
+.error-text {
+    color: brown;
+}
+
+.verified {
+    font-weight: 900;
+    color: aquamarine;
 }
 
 @media screen and (max-width: 475px) {
