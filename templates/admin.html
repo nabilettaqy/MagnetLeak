@@ -30,9 +30,17 @@
         <main class="container">
             <h2>Admin:</h2>
             <form method="POST">
-                <label for="link_name">Link:</label><br>
-                <input type="text" id="link_name" name="link_name" required><br>
-                <input type="submit" value="Delete Link">
+                <label for="link_name">Delete magnet:</label><br>
+                <input type="text" placeholder="leak-aaa11112222" id="link_name" name="link_name" required><br>
+                <input type="submit" value="Delete magnet">
+            </form>
+            <br>
+            <form method="POST">
+                <label for="link_name">Change magnet status:</label><br>
+                <input type="text" placeholder="leak-aaa11112222" id="link_name" name="link_name" required><br>
+        
+                <input type="hidden" name="action" value="toggle_status">
+                <input type="submit" value="Active/Verified">
             </form>
             {% with messages = get_flashed_messages() %}
                 {% if messages %}

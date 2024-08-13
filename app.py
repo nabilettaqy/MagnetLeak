@@ -195,18 +195,27 @@ def admin():
     total_views = sum(link.views for link in Link.query.all())
     formatted_total_views = format_num(total_views)
     if request.method == 'POST':
+        action = request.form.get('action')
         link_name = request.form.get('link_name')
         # Find the link with the given link_name
         link = Link.query.filter_by(link_name=link_name).first()
         if link is None:
-            flash('Link not found.')
+            flash('Magnet not found.')
             return redirect(url_for('admin'))
+        if action == 'delete':
+            # Delete the link
+            db.session.delete(link)
+            db.session.commit()
+            flash('Magnet deleted successfully.')
+        elif action == 'toggle_status':
+            # Toggle the link's status between 'active' and 'verified'
+            if link.status == 'active':
+                link.status = 'verified'
+            else:
+                link.status = 'active'
+            db.session.commit()
+            flash('Magnet status updated successfully.')
 
-        # Delete the link
-        db.session.delete(link)
-        db.session.commit()
-
-        flash('Link deleted successfully.')
         return redirect(url_for('admin'))
 
     # Render the admin page
