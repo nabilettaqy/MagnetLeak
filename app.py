@@ -126,6 +126,8 @@ def search():
         links = links.order_by(desc(Link.views))
     elif sort_order == 'least_views':
         links = links.order_by(Link.views)
+    elif sort_order == 'verified':
+        links = links.filter(Link.status == 'verified').order_by(desc(Link.date_posted))
     # Paginate the results
     links = links.paginate(page=page, per_page=5)
     # Count the total number of links
