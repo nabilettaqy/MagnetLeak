@@ -187,7 +187,7 @@ def submit():
         # Render the post page
         return render_template('submit.html', formatted_total_links=formatted_total_links, formatted_total_views=formatted_total_views)
 
-# Admin
+# Admin - Need to change the route ! 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     # Count the total number of links
